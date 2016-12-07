@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>唯创网讯</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		} 				
+		.component {
+			width: 50%;
+			height: 50px;
+			margin-bottom: 20px;
+			background-color: #eee;
+		}						
+	</style>
+</head>
+<body>
+	<div id="h5">
+		<div class="page section" id="page1">
+			<div class="component log">Logo</div>
+			<div class="component slogan">Slogan</div>
+		</div>
+		<div class="page section" id="page2">
+			<div class="component desc">描述信息</div>
+		</div>
+		<div class="page section" id="page3">
+			<div class="component data">数据信息</div>
+		</div>
+	</div>
+
+	<script src="../js/lib/jquery.js"></script>
+	<script src="../js/lib/jquery-ui.min.js"></script>
+	<script src="../js/lib/jquery.fullPage.js"></script>
+	<script>
+		$(function() {
+			$('#h5').fullpage({
+				sectionsColor: ['red', 'yellow', 'blue', 'green'],
+				onLeave: function (index, nextIndex, direction) {
+					$('#h5').find('.page').eq(index-1).trigger('onLeave');
+					$(this).find('.component').trigger('onLeave');
+				},
+				afterLoad: function (anchorLink, index) {
+					$('#h5').find('.page').eq(index-1).trigger('onLoad');
+					$(this).find('.component').trigger('onLoad');
+				},
+			});	
+		});
+
+		$('.page').on('onLeave', function () {
+			console.log($(this).attr('id'), '=>', 'onLeave');
+		});
+		$('.page').on('onLoad', function () {
+			console.log($(this).attr('id'), '=>', 'onLoad');
+			
+		});
+		$('.component').on('onLeave', function () {
+			$(this).fadeOut();
+			return false;
+		});
+		$('.component').on('onLoad', function () {
+			$(this).fadeIn();
+			return false;
+		});
+
+	</script>
+
+</body>
+</html>
